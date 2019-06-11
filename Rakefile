@@ -279,6 +279,9 @@ rescue LoadError
 
     desc "Vendor a specific version of net-http-persistent"
     task(:"net-http-persistent") { abort "We couldn't activate automatiek (#{automatiek_requirement}). Try `gem install automatiek:'#{automatiek_requirement}'` to be able to vendor gems" }
+
+    desc "Vendor a specific version of connection_pool"
+    task(:connection_pool) { abort "We couldn't activate connection_pool (#{automatiek_requirement}). Try `gem install automatiek:'#{automatiek_requirement}'` to be able to vendor gems" }
   end
 else
   desc "Vendor a specific version of molinillo"
@@ -321,6 +324,14 @@ else
       end
     end
     lib.send(:extend, mixin)
+  end
+
+  desc "Vendor a specific version of connection_pool"
+  Automatiek::RakeTask.new("connection_pool") do |lib|
+    lib.download = { :github => "https://github.com/mperham/connection_pool" }
+    lib.namespace = "ConnectionPool"
+    lib.prefix = "Bundler"
+    lib.vendor_lib = "lib/bundler/vendor/connection_pool"
   end
 end
 
